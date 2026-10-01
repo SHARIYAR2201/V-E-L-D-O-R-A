@@ -5,8 +5,6 @@
 :root { color-scheme: dark; }
 html, body { background: #050204; color: #f4eef0; }
 body { font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-@media (pointer: fine) { body.cursor-on, body.cursor-on a, body.cursor-on button { cursor: none; } }
-
 /* glass panels with an animated gradient edge */
 .glass { background: rgba(255,255,255,.04); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255,255,255,.09); border-radius: 18px; box-shadow: 0 10px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05); }

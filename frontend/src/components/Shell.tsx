@@ -4,7 +4,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { api, useAuth } from "@/lib/api";
-import Cursor from "./Cursor";
 
 const NAV = [
   ["/dashboard", "Dashboard"], ["/coach", "AI Coach"], ["/nutrition", "Nutrition"], ["/workouts", "Workouts"],
@@ -27,7 +26,6 @@ export default function Shell({ children, protectedPage = true }: { children: Re
   const links = [...NAV, ...(role === "admin" ? ([["/admin", "Admin"]] as const) : [])];
   return (
     <div className="relative min-h-screen overflow-x-hidden">
-      <Cursor />
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(60%_50%_at_15%_0%,rgba(139,0,0,.45),transparent),radial-gradient(50%_40%_at_90%_10%,rgba(37,99,235,.18),transparent)]" />
       <header className="sticky top-0 z-40 border-b border-white/10 bg-ink/70 backdrop-blur-xl">
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3" aria-label="Main">
