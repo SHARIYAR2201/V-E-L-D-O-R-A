@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root { color-scheme: dark; }
 html, body { background: #050204; color: #f4eef0; }
@@ -11,7 +9,10 @@ body { font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, system-u
 .edge { position: relative; }
 .edge::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
   background: conic-gradient(from var(--a,0deg), #DC143C, #9333EA, #2563EB, #DC143C); opacity: .55;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
   animation: spin 9s linear infinite; }
 @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 @keyframes spin { to { --a: 360deg; } }
