@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root { color-scheme: dark; }
 html, body { background: #050204; color: #f4eef0; }
