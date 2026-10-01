@@ -1,0 +1,126 @@
+{
+  "calorie_burn": {
+    "rows": 3864,
+    "holdout": "20%",
+    "candidates": {
+      "LinearRegression": {
+        "r2": -0.0047,
+        "mae_kcal": 100.1
+      },
+      "RandomForest": {
+        "r2": -0.0357,
+        "mae_kcal": 101.16
+      },
+      "XGBoost": {
+        "r2": -0.091,
+        "mae_kcal": 103.19
+      }
+    },
+    "best_candidate": "LinearRegression",
+    "target_mean_kcal": 301.9,
+    "abs_corr_with_target": {
+      "Duration": 0.022,
+      "Heart Rate": 0.036,
+      "Actual Weight": 0.01,
+      "Age": 0.001,
+      "Exercise Intensity": 0.011,
+      "BMI": 0.013
+    },
+    "deployed": false,
+    "finding": "Holdout R2 <= 0 for every model and |corr| with the target is ~0 for every feature: the file carries no learnable signal, so calorie burn in the app uses MET x weight x time instead.",
+    "note": "Exercise names in the source file are anonymised (Exercise 1-10)."
+  },
+  "lifestyle_risk_indicator": {
+    "audit": {
+      "rows": 50000,
+      "missing_cells": 20810,
+      "class_counts": {
+        "High": 36593,
+        "Moderate": 12937,
+        "Low": 470
+      },
+      "corr_score_vs_label_rank": 0.796,
+      "bmi_height_weight_consistency_median_abs_err": 0.02
+    },
+    "features": [
+      "Age",
+      "BMI",
+      "Waist_Circumference_cm",
+      "Exercise_Hours_Per_Week",
+      "Daily_Walking_Minutes",
+      "Sleep_Hours",
+      "Daily_Water_Intake_L",
+      "Gender",
+      "Physical_Activity_Level",
+      "Diet_Quality",
+      "Sugar_Intake_Level",
+      "Stress_Level",
+      "Smoking_Status",
+      "Alcohol_Consumption",
+      "Family_History_Diabetes",
+      "Hypertension"
+    ],
+    "excluded_as_leakage": [
+      "Patient_ID",
+      "Diabetes_Risk_Score",
+      "AI_Health_Recommendation",
+      "Doctor_Consultation_Needed"
+    ],
+    "excluded_clinical_labs": [
+      "Blood_Glucose",
+      "HbA1c",
+      "Fasting_Blood_Sugar",
+      "Insulin_Level"
+    ],
+    "candidates": {
+      "LogisticRegression": {
+        "accuracy": 0.6146,
+        "balanced_accuracy": 0.5882,
+        "macro_f1": 0.4114
+      },
+      "RandomForest": {
+        "accuracy": 0.714,
+        "balanced_accuracy": 0.4795,
+        "macro_f1": 0.4712
+      },
+      "XGBoost": {
+        "accuracy": 0.6504,
+        "balanced_accuracy": 0.5442,
+        "macro_f1": 0.4351
+      }
+    },
+    "best_candidate": "RandomForest",
+    "majority_class_baseline_accuracy": 0.7319,
+    "deployed": false,
+    "finding": "Lifestyle features barely beat the majority-class baseline and the Low class is never recovered, so no risk score is shown to users. The labels appear to be derived from lab values that the app does not collect.",
+    "per_class_f1": {
+      "Low": 0.075,
+      "Moderate": 0.541,
+      "High": 0.798
+    },
+    "caveat": "Dataset labels look synthetic; output is an informational lifestyle indicator, never a diagnosis."
+  },
+  "sleep_quality": {
+    "rows": 374,
+    "features": [
+      "Sleep Duration",
+      "Stress Level",
+      "Physical Activity Level",
+      "Daily Steps",
+      "Age"
+    ],
+    "holdout_r2": 0.9081,
+    "holdout_mae": 0.292,
+    "standardised_coefficients": {
+      "Sleep Duration": 0.518,
+      "Stress Level": -0.653,
+      "Physical Activity Level": -0.107,
+      "Daily Steps": 0.238,
+      "Age": 0.117
+    },
+    "model": "LinearRegression (descriptive, not diagnostic)"
+  },
+  "survey": {
+    "responses": 30
+  }
+}

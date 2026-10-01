@@ -1,0 +1,29 @@
+{
+  "responses": 30,
+  "age_groups": {
+    "18-24": 10,
+    "25-34": 6,
+    "Under 18": 5,
+    "35-44": 4,
+    "45-54": 3,
+    "55-64": 2
+  },
+  "share_agree_motivated": 0.8,
+  "share_agree_more_enjoyable": 0.8,
+  "share_agree_exercise_more": 0.867,
+  "share_agree_change_diet": 0.867,
+  "share_agree_improved_sleep": 0.8,
+  "tracking_frequency": {
+    "Every day": 9,
+    "Once a week": 8,
+    "Every other day": 8,
+    "Once a month": 3,
+    "Rarely": 2
+  },
+  "engagement": {
+    "Somewhat engaged": 11,
+    "Very engaged": 10,
+    "Neutral": 7,
+    "Not very engaged": 2
+  }
+}

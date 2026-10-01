@@ -1,0 +1,17 @@
+{
+  "foundation_foods_in_csv": 469,
+  "dropped_without_energy": 91,
+  "foods_loaded": 2009,
+  "foods_foundation": 329,
+  "foods_fndds_ingredients": 1680,
+  "portions_loaded": 142,
+  "nutrient_ref_rows": 474,
+  "met_rows": 23,
+  "met_source": "seed",
+  "json_crosscheck": {
+    "json_foods": 363,
+    "json_with_energy": 321,
+    "matched_by_description": 321,
+    "max_abs_kcal_diff": 5.98
+  }
+}

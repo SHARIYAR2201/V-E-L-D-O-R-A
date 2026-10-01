@@ -1,0 +1,151 @@
+# Single source of truth for dataset attribution. Served at GET /api/meta/datasets, rendered on the
+# "Data Sources & Attribution" page and checked against README.md by tests/test_attribution.py.
+# verified: true  -> citation/licence confirmed from the publisher's documentation
+# verified: false -> provenance could not be confirmed from the supplied file; owner must complete before publishing
+datasets:
+  - id: usda_foundation_csv
+    name: USDA FoodData Central - Foundation Foods (CSV)
+    version: April 2026 release (FoodData_Central_foundation_food_csv_2026-04-30.zip)
+    source: https://fdc.nal.usda.gov/download-datasets
+    license: CC0 1.0 Universal (public domain dedication)
+    purpose: Primary nutrition database (per-100 g energy and nutrients, household portions, food categories)
+    status: loaded (329 distinct foods with energy values; 142 portions) by scripts/ingest.py
+    citation: >-
+      U.S. Department of Agriculture, Agricultural Research Service. (2026). FoodData Central: Foundation Foods
+      (April 2026 release) [Data set]. U.S. Department of Agriculture. https://fdc.nal.usda.gov/
+    verified: true
+  - id: usda_foundation_json
+    name: USDA FoodData Central - Foundation Foods (JSON)
+    version: April 2026 release (FoodData_Central_foundation_food_json_2026-04-30.zip)
+    source: https://fdc.nal.usda.gov/download-datasets
+    license: CC0 1.0 Universal (public domain dedication)
+    purpose: Integrity cross-check of the CSV ingest (food count and energy agreement)
+    status: read by scripts/ingest.py for validation only; not a second source of values
+    citation: >-
+      U.S. Department of Agriculture, Agricultural Research Service. (2026). FoodData Central: Foundation Foods
+      (April 2026 release, JSON) [Data set]. U.S. Department of Agriculture. https://fdc.nal.usda.gov/
+    verified: true
+  - id: usda_supporting
+    name: USDA FoodData Central - Supporting Data for Download (CSV)
+    version: October 2022 release (FoodData_Central_Supporting_Data_csv_2022-10-28.zip)
+    source: https://fdc.nal.usda.gov/download-datasets
+    license: CC0 1.0 Universal (public domain dedication)
+    purpose: Nutrient reference table (474 nutrients) and FNDDS ingredient nutrient values (1,680 additional ingredients incl. cooked staples)
+    status: loaded by scripts/ingest.py; ingredient rows are stored with source "USDA FNDDS ingredient values (Supporting Data 2022-10-28)"
+    citation: >-
+      U.S. Department of Agriculture, Agricultural Research Service. (2022). FoodData Central: Supporting data for
+      download (October 2022 release) [Data set]. U.S. Department of Agriculture. https://fdc.nal.usda.gov/
+    verified: true
+  - id: usda_fdc_paper
+    name: FoodData Central (system description paper, cite alongside the data)
+    version: 2022
+    source: https://doi.org/10.1093/ajcn/nqab397
+    license: n/a (journal article)
+    purpose: Recommended scholarly reference for FoodData Central
+    status: reference only
+    citation: >-
+      Fukagawa, N. K., McKillop, K., Pehrsson, P. R., Moshfegh, A., Harnly, J., & Finley, J. (2022). USDA's FoodData
+      Central: What is it and why is it needed today? The American Journal of Clinical Nutrition, 115(3), 619-624.
+      https://doi.org/10.1093/ajcn/nqab397
+    verified: true
+  - id: compendium
+    name: Compendium of Physical Activities
+    version: 2011 values (seed table of 23 activities); 2024 update is the current edition
+    source: https://pacompendium.com/
+    license: Free to use with citation; confirm terms at pacompendium.com
+    purpose: MET values for calorie-burn estimation (kcal = MET x weight_kg x hours)
+    status: 23 common activities transcribed into backend/app/services/mets.py as a seed; NOT the full file. Load the official file with `python -m scripts.ingest --met-file`
+    citation: >-
+      Ainsworth, B. E., Haskell, W. L., Herrmann, S. D., Meckes, N., Bassett, D. R., Jr., Tudor-Locke, C., Greer, J. L.,
+      Vezina, J., Whitt-Glover, M. C., & Leon, A. S. (2011). 2011 Compendium of Physical Activities: A second update of
+      codes and MET values. Medicine & Science in Sports & Exercise, 43(8), 1575-1581.
+      https://doi.org/10.1249/MSS.0b013e31821ece12
+    verified: true
+  - id: compendium_2024
+    name: 2024 Adult Compendium of Physical Activities
+    version: 2024
+    source: https://pacompendium.com/
+    license: Free to use with citation; confirm terms at pacompendium.com
+    purpose: Current edition to use when loading the full MET file
+    status: reference only (not bundled)
+    citation: >-
+      Herrmann, S. D., Willis, E. A., Ainsworth, B. E., Barreira, T. V., Hastert, M., Kracht, C. L., Schuna, J. M., Jr.,
+      Cai, Z., Quan, M., Tudor-Locke, C., Whitt-Glover, M. C., & Jacobs, D. R., Jr. (2024). 2024 Adult Compendium of
+      Physical Activities: A third update of the energy costs of human activities. Journal of Sport and Health Science,
+      13(1), 6-12. https://doi.org/10.1016/j.jshs.2023.10.010
+    verified: true
+  - id: open_food_facts
+    name: Open Food Facts
+    version: live API (no snapshot bundled)
+    source: https://world.openfoodfacts.org/
+    license: Open Database License (ODbL) 1.0 for the database; Database Contents License for contents; CC BY-SA for images
+    purpose: Packaged-food and barcode lookup
+    status: GET /api/foods/barcode/{code} queries the public API at request time; nothing is stored; contributors must be credited and derived databases share-alike
+    citation: >-
+      Open Food Facts contributors. (n.d.). Open Food Facts: The free food products database [Data set].
+      https://world.openfoodfacts.org/
+    verified: true
+  - id: food101
+    name: Food-101
+    version: 2014 (101,000 images, 101 classes)
+    source: https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/
+    license: Research use; images originate from foodspotting.com - see the dataset page before any commercial use
+    purpose: Planned food-image recognition (photo logging)
+    status: not loaded; image recognition is not implemented in this release
+    citation: >-
+      Bossard, L., Guillaumin, M., & Van Gool, L. (2014). Food-101 - Mining discriminative components with random
+      forests. In D. Fleet, T. Pajdla, B. Schiele, & T. Tuytelaars (Eds.), Computer Vision - ECCV 2014 (Lecture Notes in
+      Computer Science, Vol. 8694, pp. 446-461). Springer. https://doi.org/10.1007/978-3-319-10599-4_29
+    verified: true
+  - id: uecfood256
+    name: UEC FOOD 256 (UECFood256)
+    version: 256 food categories
+    source: https://foodcam.mobi/dataset256.html
+    license: Research use; confirm terms on the dataset page
+    purpose: Planned food-image recognition (photo logging)
+    status: not loaded; image recognition is not implemented in this release
+    citation: >-
+      Kawano, Y., & Yanai, K. (2014). FoodCam-256: A large-scale real-time mobile food recognition system employing
+      high-dimensional features and compression of classifier weights. Proceedings of the 22nd ACM International
+      Conference on Multimedia. https://foodcam.mobi/dataset256.html
+    verified: false
+  - id: exercise_dataset
+    name: exercise_dataset.csv (3,864 rows; calories burned vs duration, heart rate, weight, intensity)
+    version: as supplied by the project owner
+    source: "Unknown - not stated in the file. [OWNER TO COMPLETE: publisher/URL]"
+    license: "Unknown. [OWNER TO COMPLETE]"
+    purpose: Evaluated as a data-driven calorie-burn model
+    status: trained and audited by scripts/train.py; NOT deployed (no learnable signal, holdout R2 <= 0)
+    citation: >-
+      [Author/publisher unknown]. (n.d.). exercise_dataset.csv [Data set]. Supplied by the V-E-L-D-O-R-A project owner.
+    verified: false
+  - id: diabetes_risk
+    name: diabetes_risk_prediction_dataset.csv (50,000 rows)
+    version: as supplied by the project owner
+    source: "Unknown - not stated in the file. [OWNER TO COMPLETE: publisher/URL]"
+    license: "Unknown. [OWNER TO COMPLETE]"
+    purpose: Evaluated as a lifestyle risk-indicator model
+    status: trained and audited by scripts/train.py; NOT deployed (barely beats the majority-class baseline; labels appear synthetic). No risk score is shown to users
+    citation: >-
+      [Author/publisher unknown]. (n.d.). diabetes_risk_prediction_dataset.csv [Data set]. Supplied by the V-E-L-D-O-R-A project owner.
+    verified: false
+  - id: sleep_health
+    name: Sleep Health and Lifestyle Dataset (374 rows)
+    version: Sleep_health_and_lifestyle_dataset.csv, as supplied by the project owner
+    source: "Not stated in the file. Commonly distributed on Kaggle under this title. [OWNER TO COMPLETE: author, URL]"
+    license: "Unknown. [OWNER TO COMPLETE]"
+    purpose: Descriptive sleep benchmarks (duration percentiles, quality by age band) and a linear model of sleep quality used for plain-language insights
+    status: loaded by scripts/train.py into artifacts/sleep_benchmarks.json and sleep_model.joblib; the data looks synthetic, so outputs are descriptive only
+    citation: >-
+      [Author unknown]. (n.d.). Sleep health and lifestyle dataset [Data set]. Supplied by the V-E-L-D-O-R-A project owner.
+    verified: false
+  - id: wearable_survey
+    name: survey_605.csv (fitness wearable survey, 30 responses, March 2023)
+    version: as supplied by the project owner
+    source: "Unknown (Google Forms export). [OWNER TO COMPLETE]"
+    license: "Unknown. [OWNER TO COMPLETE]"
+    purpose: Product research on wearable engagement (informs reminders, streaks and tracking cadence); shown in the admin analytics view
+    status: summarised by scripts/train.py into artifacts/survey_summary.json; aggregate counts only, n=30, includes under-18 respondents so no row-level use
+    citation: >-
+      [Author unknown]. (2023). Fitness wearable usage survey (survey_605.csv) [Data set]. Supplied by the V-E-L-D-O-R-A project owner.
+    verified: false

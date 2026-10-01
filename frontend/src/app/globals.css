@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html, body { background: #050204; color: #f4eef0; }
+body { font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+@media (pointer: fine) { body.cursor-on, body.cursor-on a, body.cursor-on button { cursor: none; } }
+
+/* glass panels with an animated gradient edge */
+.glass { background: rgba(255,255,255,.04); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.09); border-radius: 18px; box-shadow: 0 10px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05); }
+.edge { position: relative; }
+.edge::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: conic-gradient(from var(--a,0deg), #DC143C, #9333EA, #2563EB, #DC143C); opacity: .55;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: spin 9s linear infinite; }
+@property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@keyframes spin { to { --a: 360deg; } }
+.btn { position: relative; overflow: hidden; border-radius: 999px; padding: .7rem 1.4rem; font-weight: 600; transition: box-shadow .25s, transform .25s; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 0 28px rgba(220,20,60,.55); }
+.btn-primary { background-image: linear-gradient(135deg,#8B0000,#DC143C); }
+.btn-ai { background-image: linear-gradient(135deg,#2563EB,#06B6D4 55%,#4F46E5); }
+.btn-ai:hover { box-shadow: 0 0 28px rgba(6,182,212,.55); }
+.btn-ghost { border: 1px solid rgba(255,255,255,.2); }
+.input { width: 100%; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 12px; padding: .65rem .85rem; outline: none; }
+.input:focus-visible, .btn:focus-visible, a:focus-visible { outline: 2px solid #06B6D4; outline-offset: 2px; }
+.pulse-bar { background-size: 200% 100%; animation: sweep 2.2s linear infinite; }
+@keyframes sweep { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .edge::before, .pulse-bar { animation: none; } * { scroll-behavior: auto !important; } }
