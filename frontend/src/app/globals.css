@@ -29,3 +29,32 @@ body { font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, system-u
 .pulse-bar { background-size: 200% 100%; animation: sweep 2.2s linear infinite; }
 @keyframes sweep { to { background-position: -200% 0; } }
 @media (prefers-reduced-motion: reduce) { .edge::before, .pulse-bar { animation: none; } * { scroll-behavior: auto !important; } }
+/* dropdowns: dark, readable, with a crimson accent */
+select.input {
+  color-scheme: dark;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #14070b;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23DC143C' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right .9rem center;
+  padding-right: 2.4rem;
+  border-color: rgba(220, 20, 60, .45);
+  color: #f4eef0;
+  cursor: pointer;
+  transition: box-shadow .2s, border-color .2s;
+}
+select.input:hover,
+select.input:focus-visible {
+  border-color: #DC143C;
+  box-shadow: 0 0 16px rgba(220, 20, 60, .45);
+}
+select.input option {
+  background-color: #14070b;
+  color: #f4eef0;
+}
+select.input option:checked,
+select.input option:hover {
+  background: #8B0000 linear-gradient(#8B0000, #8B0000);
+  color: #fff;
+}
