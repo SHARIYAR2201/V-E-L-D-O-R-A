@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: veldora-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: VELDORA_DATABASE_URL
+        sync: false
+      - key: VELDORA_JWT_SECRET
+        generateValue: true
+      - key: VELDORA_CORS_ORIGINS
+        sync: false
+      - key: VELDORA_ADMIN_EMAILS
+        sync: false
+      - key: VELDORA_GOOGLE_CLIENT_ID
+        sync: false
