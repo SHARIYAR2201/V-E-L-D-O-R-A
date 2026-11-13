@@ -65,7 +65,7 @@ frontend/src/{app,components,lib}                        Next.js app router
 ## 5. Install and run
 
 ```bash
-cd backend && pip install -r requirements.txt
+cd backend && pip install -r requirements.txt -r requirements-dev.txt
 python -m scripts.ingest && python -m scripts.train
 python -m pytest -q
 uvicorn app.main:app --reload                 # http://localhost:8000/docs
@@ -76,13 +76,15 @@ Docker: `cp .env.example .env`, edit secrets, `docker compose up --build`.
 
 **Environment variables** (prefix `VELDORA_`): `DATABASE_URL`, `REDIS_URL`, `JWT_SECRET` (must change), `GOOGLE_CLIENT_ID`, `CORS_ORIGINS`, `ADMIN_EMAILS`, `DATA_DIR`; frontend `API_URL`.
 
-**Deployment (Render + Neon + Vercel).** The backend runs as a container on Render, Postgres is managed by Neon, and the Next.js frontend runs on Vercel. TLS is provided by the hosts.
+**Deployment (Vercel Services + Neon).** One Vercel project builds both services declared in `vercel.json`: the Next.js app and the FastAPI API (as a Vercel Function). Postgres is managed by Neon; TLS is provided by Vercel.
 
 1. Create a Neon database and build the SQLAlchemy URL: `postgresql+psycopg://USER:PASSWORD@HOST/neondb?sslmode=require`.
-2. On Render, create a Blueprint from this repository (`render.yaml`) or a Docker web service using `backend/Dockerfile` with the repository root as build context. Set `VELDORA_DATABASE_URL`, `VELDORA_JWT_SECRET`, `VELDORA_CORS_ORIGINS=https://<app>.vercel.app` and `VELDORA_ADMIN_EMAILS`; the health check is `/api/health`. Free services sleep after idle.
-3. Load the reference foods once, from `backend/` with the Neon URL in `VELDORA_DATABASE_URL`: `python -m scripts.ingest`. Training is not required because `backend/artifacts/` is committed. `ingest` is idempotent, so re-run it only when the datasets change.
-4. Import this repository in Vercel, set **Root Directory** to `frontend`, and set `API_URL=https://<api-host>` for Production (and Preview). `/api/*` is proxied to that host, and the destination is fixed at build time, so changing `API_URL` requires a redeploy.
-5. Verify `https://<app>.vercel.app/api/health`, then register the admin account for the address in `VELDORA_ADMIN_EMAILS`.
+2. Load the reference foods once, from `backend/`, with the Neon URL in `VELDORA_DATABASE_URL`: `python -m scripts.ingest`. Training is not required because `backend/artifacts/` is committed; `ingest` is idempotent, so re-run it only when the datasets change.
+3. Import this repository into Vercel and keep **Root Directory** at the repository root. The **Services** framework preset is detected from `vercel.json` (backend at `backend/`, frontend at `frontend/`). In the project's environment variables add `VELDORA_DATABASE_URL`, `VELDORA_JWT_SECRET` and `VELDORA_ADMIN_EMAILS`, plus `VELDORA_CORS_ORIGINS=https://<project>.vercel.app` if you want to allow direct cross-origin API calls. Set them for Production (repeat for Preview, ideally against a Neon branch).
+4. Deploy, verify `https://<project>.vercel.app/api/health`, then register the admin account for the address in `VELDORA_ADMIN_EMAILS`.
+5. The API bundle installs only `backend/requirements.txt`; ingest/training/test packages are in `backend/requirements-dev.txt`. `data/datasets.yml` is mirrored to `backend/data/datasets.yml` for the service bundle by `python -m scripts.sync_readme`.
+
+Vercel Services is in beta. `render.yaml` remains an optional fallback: run `backend/Dockerfile` with the repository root as build context and the same Neon URL and environment variables.
 
 SQLite and container filesystems are not persistent, so Postgres is required in production. Email stays a dev outbox until SMTP/SES is wired into `app/mailer.py`. CI is in `.github/workflows/ci.yml`.
 

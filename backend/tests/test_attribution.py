@@ -16,6 +16,11 @@ def test_readme_in_sync_with_registry():
     assert r.returncode == 0, "README dataset section is stale: run `python -m scripts.sync_readme`"
 
 
+def test_backend_dataset_mirror_is_current():
+    assert (ROOT / "backend" / "data" / "datasets.yml").read_text() == (ROOT / "data" / "datasets.yml").read_text(), \
+        "backend/data/datasets.yml is stale: run `python -m scripts.sync_readme`"
+
+
 def test_every_supplied_file_is_registered():
     reg = yaml.safe_load((ROOT / "data" / "datasets.yml").read_text())["datasets"]
     blob = " ".join(f"{d['name']} {d['version']}" for d in reg)
